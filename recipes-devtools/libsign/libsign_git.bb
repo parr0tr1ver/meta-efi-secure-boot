@@ -40,12 +40,17 @@ EXTRA_OEMAKE = " \
     SIGNATURELET_DIR="${STAGING_LIBDIR_NATIVE}/signaturelet" \
 "
 
+do_compile_prepend() {
+    # fix host contamination issue
+    sed -i '/$(libdir)/d' ${S}/env.mk
+}
+
 do_install() {
     oe_runmake install DESTDIR="${D}"
 }
 
 FILES_${PN} = "\
-    ${sbindir} \
+    ${bindir} \
     ${libdir} \
 "
 
